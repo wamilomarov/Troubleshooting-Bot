@@ -1,0 +1,39 @@
+
+<div class="col l6 m6 s12">
+  <mat-form-field>
+    <mat-label>Search text</mat-label>
+    <input matInput name="query" placeholder="Enter Search Here" [(ngModel)]="searchQuery" autocomplete="off"/>
+  </mat-form-field>
+</div>
+
+<button (click)="search()" mat-raised-button>
+  <mat-icon *ngIf="!showSpinner">search</mat-icon>
+  <mat-spinner diameter="30" *ngIf="showSpinner" style="margin: 5px"></mat-spinner>
+</button>
+
+<div *ngIf="searchResults; else elseBlock">
+
+  <mat-card *ngFor="let result of searchResults.data; index as i">
+    <mat-card-header>
+<!--      <div mat-card-avatar [ngStyle]="{ 'background-image': 'url(' + result.owner.avatar_url + ')', 'background-size': 'cover'}"></div>-->
+      <mat-card-title>
+        {{result.contact_person_name}}
+      </mat-card-title>
+      <mat-card-subtitle>
+        by {{result.customer | uppercase }}
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <p>{{result.slogan}}</p>
+<!--      <p>Created On: {{result.created_at | date: 'fullDate'}}</p>-->
+    </mat-card-content>
+    <mat-card-actions align="end">
+      <a mat-raised-button [routerLink]="['/csr', result._id.$oid]">View</a>
+    </mat-card-actions>
+  </mat-card>
+
+</div>
+<ng-template #elseBlock style="margin-right: auto; margin-left: auto">
+  <mat-spinner diameter="100" style="margin-right: auto; margin-left: auto; margin-top: 5rem"
+               color="accent"></mat-spinner>
+</ng-template>

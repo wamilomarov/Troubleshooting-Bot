@@ -1,0 +1,72 @@
+<div class="row">
+  <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+    <div class="col s12 m12 l12">
+      <div class="col l3 m4 s6 offset-l5 offset-m4 offset-s3">
+        <div class="hover" (click)="triggerImageInput()"
+             [ngStyle]="{ 'background-image': 'url(' + imageUrl + ')'}">
+          <div class="text">Update photo</div>
+        </div>
+        <input type="file" class="hide" name="photo" accept="image/*" id="imageInput" #file
+               (change)="preview(file.files)" formControlName="photo">
+      </div>
+    </div>
+
+    <div class="col s12 m12 l12">
+      <div class="col l6 m6 s8 offset-l3 offset-m3 offset-s2">
+        <mat-list>
+          <mat-list-item role="listitem">
+            <mat-form-field class="col l12">
+              <input matInput placeholder="Email" formControlName="email">
+              <mat-icon matSuffix>email</mat-icon>
+            </mat-form-field>
+          </mat-list-item>
+          <mat-list-item role="listitem">
+            <mat-form-field class="col l12">
+              <input matInput placeholder="Name" formControlName="name">
+              <mat-icon matSuffix>person</mat-icon>
+            </mat-form-field>
+          </mat-list-item>
+          <mat-list-item role="listitem">
+            <div class="col l12">
+              <h5>Change password</h5>
+            </div>
+          </mat-list-item>
+          <mat-list-item role="listitem">
+            <mat-form-field class="col l12">
+              <input matInput placeholder="Enter your old password" formControlName="oldPassword" [type]="hideOldPassword ? 'password' : 'text'">
+              <button mat-icon-button matSuffix (click)="hideOldPassword = !hideOldPassword"
+                      [attr.aria-label]="'Hide password'"
+                      [attr.aria-pressed]="hideOldPassword">
+                <mat-icon>{{hideOldPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
+            </mat-form-field>
+          </mat-list-item>
+          <mat-list-item role="listitem">
+            <mat-form-field class="col l12">
+              <input matInput placeholder="Enter new password" formControlName="newPassword" [type]="hideNewPassword ? 'password' : 'text'">
+              <button mat-icon-button matSuffix (click)="hideNewPassword = !hideNewPassword"
+                      [attr.aria-label]="'Hide password'"
+                      [attr.aria-pressed]="hideNewPassword">
+                <mat-icon>{{hideNewPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
+            </mat-form-field>
+          </mat-list-item>
+          <mat-list-item role="listitem">
+            <mat-form-field class="col l12">
+              <input matInput placeholder="Confirm new password" formControlName="confirmNewPassword" [type]="hideConfirmNewPassword ? 'password' : 'text'">
+              <button mat-icon-button matSuffix (click)="hideConfirmNewPassword = !hideConfirmNewPassword"
+                      [attr.aria-label]="'Hide password'"
+                      [attr.aria-pressed]="hideConfirmNewPassword">
+                <mat-icon>{{hideConfirmNewPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
+            </mat-form-field>
+          </mat-list-item>
+          <mat-list-item role="listitem">
+            <button mat-raised-button class="col l12">Save</button>
+          </mat-list-item>
+        </mat-list>
+      </div>
+    </div>
+  </form>
+</div>
+
