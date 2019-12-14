@@ -5,9 +5,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
-
-import { GitSearchService} from './services/git-search/git-search.service';
-import { GitSearchComponent } from './components/git-search/git-search.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MaterialModule} from './modules/material/material.module';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
@@ -22,7 +19,6 @@ import {HttpErrorInterceptorProvider} from './services/http-error-interceptor/ht
 @NgModule({
   declarations: [
     AppComponent,
-    GitSearchComponent,
     SidebarComponent,
     CreateFormComponent,
     CsrViewComponent,
@@ -39,7 +35,7 @@ import {HttpErrorInterceptorProvider} from './services/http-error-interceptor/ht
     MaterialModule,
     ReactiveFormsModule
   ],
-  providers: [GitSearchService, HttpErrorInterceptorProvider],
+  providers: [HttpErrorInterceptorProvider],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
