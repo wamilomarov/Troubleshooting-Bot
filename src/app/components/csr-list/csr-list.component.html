@@ -7,17 +7,16 @@
 </div>
 
 <button (click)="search()" mat-raised-button>
-  <mat-icon *ngIf="!showSpinner">search</mat-icon>
-  <mat-spinner diameter="30" *ngIf="showSpinner" style="margin: 5px"></mat-spinner>
+  <mat-icon>search</mat-icon>
 </button>
 
-<div *ngIf="searchResults; else elseBlock">
+<div *ngIf="searchResults">
 
   <mat-card *ngFor="let result of searchResults.data; index as i">
     <mat-card-header>
 <!--      <div mat-card-avatar [ngStyle]="{ 'background-image': 'url(' + result.owner.avatar_url + ')', 'background-size': 'cover'}"></div>-->
       <mat-card-title>
-        {{result.contact_person_name}}
+        {{result.contact_person.name}}
       </mat-card-title>
       <mat-card-subtitle>
         by {{result.customer | uppercase }}
@@ -32,8 +31,10 @@
     </mat-card-actions>
   </mat-card>
 
+  <mat-paginator [length]="searchResults.meta.total"
+                 [pageSize]="searchResults.meta.per_page"
+                 [pageSizeOptions]="[15,25,50,100]"
+                 [pageIndex]="searchResults.meta.current_page"
+                 (page)="pageEvent = search($event)">
+  </mat-paginator>
 </div>
-<ng-template #elseBlock style="margin-right: auto; margin-left: auto">
-  <mat-spinner diameter="100" style="margin-right: auto; margin-left: auto; margin-top: 5rem"
-               color="accent"></mat-spinner>
-</ng-template>

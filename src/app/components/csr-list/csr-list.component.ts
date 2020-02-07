@@ -1,6 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {Csr} from '../../interfaces/csr';
 import {CsrService} from '../../services/csr/csr.service';
+import {MatSnackBar} from '@angular/material';
+import {PageEvent} from '@angular/material/typings/paginator';
 
 @Component({
   selector: 'app-csr-list',
@@ -10,33 +12,45 @@ import {CsrService} from '../../services/csr/csr.service';
 export class CsrListComponent implements OnInit {
   searchResults: Csr;
   searchQuery: string;
-  showSpinner = false;
+  pageEvent : PageEvent;
 
-  constructor(private csrService: CsrService) { }
+  constructor(private csrService: CsrService, private snackBar: MatSnackBar) { }
 
   ngOnInit() {
-    this.csrService.search('')
-      .then((response) => {
+    this.csrService.search('', 0, 15)
+      .subscribe((response) => {
         this.searchResults = response;
         // tslint:disable-next-line:no-shadowed-variable
       }, (error) => {
-        alert('Error: ' + error.statusText);
+        this.snackBar.open(error.statusText, "Ok", {duration: 4000});
       });
   }
 
   ngOnDestroy(): void {
   }
 
-  search = () => {
-    this.showSpinner = true;
-    this.csrService.search(this.searchQuery)
-      .then((response) => {
-        this.showSpinner = false;
+  search = (event? : PageEvent) => {
+    var pageIndex = 0;
+    var pageSize = 15;
+
+    if (this.searchQuery === undefined)
+    {
+      this.searchQuery = "";
+    }
+
+    if (event != undefined)
+    {
+      pageIndex = event.pageIndex;
+      pageSize = event.pageSize;
+    }
+    this.csrService.search(this.searchQuery, pageIndex, pageSize)
+      .subscribe((response) => {
         this.searchResults = response;
         // tslint:disable-next-line:no-shadowed-variable
       }, (error) => {
-        this.showSpinner = false;
-        alert('Error: ' + error.statusText);
+        this.snackBar.open(error.statusText, "Ok", {duration: 4000});
       });
+
+    return event;
   }
 }

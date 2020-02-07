@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HttpClientModule } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MaterialModule} from './modules/material/material.module';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
@@ -14,6 +14,14 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { CsrListComponent } from './components/csr-list/csr-list.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import {HttpErrorInterceptorProvider} from './services/http-error-interceptor/http-error-interceptor.service';
+import { ChatComponent } from './components/chat/chat.component';
+import { LoginComponent } from './components/login/login.component';
+import {CookieService} from 'ngx-cookie-service';
+import {ProfileService} from './services/profile/profile.service';
+import { RegisterComponent } from './components/register/register.component';
+import {LoadingInterceptor} from './services/loading/loading-interceptor';
+import { ScrollableDirective } from './directives/scrollable/scrollable.directive';
+import { OffsetTopDirective } from './directives/offsetTop/offset-top.directive';
 
 
 @NgModule({
@@ -24,7 +32,12 @@ import {HttpErrorInterceptorProvider} from './services/http-error-interceptor/ht
     CsrViewComponent,
     ProfileComponent,
     CsrListComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    ChatComponent,
+    LoginComponent,
+    RegisterComponent,
+    ScrollableDirective,
+    OffsetTopDirective
   ],
   imports: [
     BrowserModule,
@@ -33,9 +46,8 @@ import {HttpErrorInterceptorProvider} from './services/http-error-interceptor/ht
     FormsModule,
     BrowserAnimationsModule,
     MaterialModule,
-    ReactiveFormsModule
-  ],
-  providers: [HttpErrorInterceptorProvider],
+    ReactiveFormsModule],
+  providers: [CookieService, ProfileService, {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -11,12 +11,41 @@ $mat-ericsson: (
   100: #f1f1f1,
   200: #e7e7e7,
   300: #d6d6d6,
-  400: #b2b2b2,
-  500: #929292,
-  600: #6a6a6a,
-  700: #565656,
-  800: #383838,
-  900: #181818,
+  400: #222222,
+  500: #181818,
+  600: #141414,
+  700: #101010,
+  800: #050505,
+  900: #000000,
+  contrast: (
+    50: $black-87-opacity,
+    100: $black-87-opacity,
+    200: $black-87-opacity,
+    300: $black-87-opacity,
+    400: $black-87-opacity,
+    500: white,
+    600: white,
+    700: white,
+    800: $white-87-opacity,
+    900: $white-87-opacity,
+    A100: $black-87-opacity,
+    A200: white,
+    A400: white,
+    A700: white,
+  )
+);
+
+$mat-ericsson-accent: (
+  50: #181818,
+  100: #212121,
+  200: #424242,
+  300: #616161,
+  400: #757575,
+  500: #FAFAFA,
+  600: #BDBDBD,
+  700: #E0E0E0,
+  800: #EEEEEE,
+  900: #F5F5F5,
   contrast: (
     50: $black-87-opacity,
     100: $black-87-opacity,
@@ -39,7 +68,7 @@ $mat-ericsson: (
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
 $candy-app-primary: mat-palette($mat-ericsson);
-$candy-app-accent:  mat-palette($mat-indigo);
+$candy-app-accent:  mat-palette($mat-ericsson-accent);
 // The warn palette is optional (defaults to red).
 $candy-app-warn:    mat-palette($mat-red);
 

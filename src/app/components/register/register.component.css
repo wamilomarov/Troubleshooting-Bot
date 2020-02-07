@@ -1,0 +1,14 @@
+mat-card {
+  max-width: 400px;
+  margin: 2em auto;
+  text-align: center;
+}
+.register-content {
+  padding: 60px 1rem;
+}
+.full-width {
+  width: 100%;
+}
+.form-footer button {
+  margin-right: 10px;
+}

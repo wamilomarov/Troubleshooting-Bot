@@ -1,0 +1,62 @@
+<div class="signin-content">
+  <mat-card>
+    <mat-card-content>
+      <form [formGroup]="form" (ngSubmit)="onRegister()">
+        <p><img src="assets/img/ericsson.logo.svg" width="50%" alt=""></p>
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Full name" formControlName="name">
+          <mat-error *ngIf="form.hasError('required', 'name')">
+            Full name is required
+          </mat-error>
+          <mat-error *ngIf="form.get('name').errors?.message">
+            {{form.get('name').errors?.message}}
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Username" formControlName="username">
+          <mat-error *ngIf="form.hasError('required', 'username')">
+            Username is required
+          </mat-error>
+          <mat-error *ngIf="form.get('username').errors?.message">
+            {{form.get('username').errors?.message}}
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Email" formControlName="email">
+          <mat-error *ngIf="form.hasError('required', 'email')">
+            Email is required
+          </mat-error>
+          <mat-error *ngIf="form.get('email').errors?.message">
+            {{form.get('email').errors?.message}}
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="full-width">
+          <input matInput type="password" placeholder="Password" formControlName="password">
+          <mat-error *ngIf="form.hasError('required', 'password')">
+            Password is required
+          </mat-error>
+          <mat-error *ngIf="form.get('password').errors?.message">
+            {{form.get('password').errors?.message}}
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="full-width">
+          <input matInput type="password" placeholder="Password Confirmation" formControlName="password_confirmation">
+          <mat-error *ngIf="form.get('password_confirmation').hasError('notSame')">
+            {{form.get('password_confirmation').getError('notSame')}}
+          </mat-error>
+          <mat-error *ngIf="form.hasError('required', 'password_confirmation')">
+            Password confirmation is required
+          </mat-error>
+          <mat-error *ngIf="form.get('password_confirmation').errors?.message">
+            {{form.get('password_confirmation').errors?.message}}
+          </mat-error>
+        </mat-form-field>
+        <div class="form-footer">
+          <button mat-raised-button color="primary" [disabled]="!form.valid">Register</button>
+          <a mat-button routerLink="/login">Go to login</a>
+        </div>
+
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

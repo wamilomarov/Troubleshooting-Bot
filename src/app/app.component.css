@@ -1,0 +1,4 @@
+.loading {
+  top: 0 !important;
+  z-index: 999;
+}

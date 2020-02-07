@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {Profile} from '../../interfaces/profile';
 import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {CookieService} from 'ngx-cookie-service';
+import {ProfileService} from '../../services/profile/profile.service';
+import {MatSnackBar} from '@angular/material';
 
 @Component({
   selector: 'app-profile',
@@ -9,52 +11,57 @@ import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/form
 })
 export class ProfileComponent implements OnInit {
 
-  profile: Profile;
+  profile: any = {};
   imageUrl: any;
   hideOldPassword = true;
   hideNewPassword = true;
   hideConfirmNewPassword = true;
-  profileForm: FormGroup;
+  form: FormGroup;
   submitted = false;
 
-  constructor(private formBuilder: FormBuilder) {
-    this.profile = new class implements Profile {
-      email: string;
-      name: string;
-      photo: string;
-    };
-    this.profile.email = 'shamil.omarov@ericsson.com';
-    this.profile.name = 'Shamil Omarov';
+  constructor(
+    private formBuilder: FormBuilder,
+    private cookieService: CookieService,
+    private profileService: ProfileService,
+    private snackBar: MatSnackBar)
+  {
+    this.profile._id = cookieService.get('user._id');
+    this.profile.email = cookieService.get('user.email');
+    this.profile.username = cookieService.get('user.username');
+    this.profile.name = cookieService.get('user.name');
     this.profile.photo = 'http://localhost:4200/assets/img/img_avatar.png';
     this.imageUrl = this.profile.photo;
   }
 
   ngOnInit() {
-
-    this.profileForm = this.formBuilder.group({
+    this.form = this.formBuilder.group({
       name: [this.profile.name, Validators.required],
+      username: [this.profile.username, Validators.required],
       email: [this.profile.email, [Validators.required, Validators.email]],
-      photo: [null, []],
-      oldPassword: [null, []],
-      newPassword: [null, []],
-      confirmNewPassword: [null, []],
+      photo: [null],
+      old_password: [null],
+      new_password: [null],
+      new_password_confirmation: [null],
     }, {
-      validator: this.passwordMatching
+      validator: [this.checkPasswords, this.oldPasswordRequired, this.newPasswordLength]
     });
   }
 
-  get f() { return this.profileForm.controls; }
+  get f() { return this.form.controls; }
 
   onSubmit() {
     this.submitted = true;
-
-    // stop here if form is invalid
-    if (this.profileForm.invalid) {
-      return;
-    }
-
-    // display form values on success
-    alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.profileForm.value, null, 4));
+    this.profileService.update(this.form.value).subscribe(
+      data => {
+        this.snackBar.open("Profile was successfully updated!", "Ok", {duration: 2000})
+      },
+      error => {
+        for (let key in error.error.errors)
+        {
+          this.form.controls[key].setErrors({message: error.error.errors[key]})
+        }
+      }
+    )
   }
 
   triggerImageInput = () => {
@@ -81,10 +88,33 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  passwordMatching(c: AbstractControl): { invalid: boolean } {
-    if (c.get('newPassword').value !== c.get('confirmNewPassword').value) {
-      return {invalid: true};
-    }
+  checkPasswords(group: FormGroup) {
+    let pass = group.get('new_password').value;
+    let confirmPass = group.get('new_password_confirmation').value;
+    return pass === confirmPass ? null : group.controls.new_password_confirmation.setErrors({message: 'Passwords should match.'});
   }
 
+  oldPasswordRequired(group: FormGroup) {
+    let newPass = group.get('new_password').value;
+    let oldPass = group.get('old_password').value;
+    if (newPass)
+    {
+      if (oldPass)
+      {
+        return  null;
+      }
+      else
+      {
+        group.controls.old_password
+          .setErrors({message: 'Provide old password to set new password.'});
+      }
+    }
+    return null;
+  }
+
+  newPasswordLength(group: FormGroup) {
+    let newPass = group.get('new_password').value;
+    return !newPass || newPass.length >= 5 ? null : group.controls.new_password
+      .setErrors({message: 'Password should be at least 5 characters long.'});
+  }
 }

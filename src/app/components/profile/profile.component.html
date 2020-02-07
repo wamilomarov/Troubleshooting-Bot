@@ -1,5 +1,5 @@
 <div class="row">
-  <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="col s12 m12 l12">
       <div class="col l3 m4 s6 offset-l5 offset-m4 offset-s3">
         <div class="hover" (click)="triggerImageInput()"
@@ -16,14 +16,38 @@
         <mat-list>
           <mat-list-item role="listitem">
             <mat-form-field class="col l12">
-              <input matInput placeholder="Email" formControlName="email">
-              <mat-icon matSuffix>email</mat-icon>
+              <input matInput placeholder="Full name" formControlName="name">
+              <mat-icon matSuffix>person</mat-icon>
+              <mat-error *ngIf="form.hasError('required', 'name')">
+                Full name is required
+              </mat-error>
+              <mat-error *ngIf="form.get('name').errors?.message">
+                {{form.get('name').errors?.message}}
+              </mat-error>
             </mat-form-field>
           </mat-list-item>
           <mat-list-item role="listitem">
             <mat-form-field class="col l12">
-              <input matInput placeholder="Name" formControlName="name">
-              <mat-icon matSuffix>person</mat-icon>
+              <input matInput placeholder="Username" formControlName="username">
+              <mat-icon matSuffix>create</mat-icon>
+              <mat-error *ngIf="form.hasError('required', 'username')">
+                Username is required
+              </mat-error>
+              <mat-error *ngIf="form.get('username').errors?.message">
+                {{form.get('username').errors?.message}}
+              </mat-error>
+            </mat-form-field>
+          </mat-list-item>
+          <mat-list-item role="listitem">
+            <mat-form-field class="col l12">
+              <input matInput placeholder="Email" formControlName="email">
+              <mat-icon matSuffix>email</mat-icon>
+              <mat-error *ngIf="form.hasError('required', 'email')">
+                Email is required
+              </mat-error>
+              <mat-error *ngIf="form.get('email').errors?.message">
+                {{form.get('email').errors?.message}}
+              </mat-error>
             </mat-form-field>
           </mat-list-item>
           <mat-list-item role="listitem">
@@ -33,36 +57,48 @@
           </mat-list-item>
           <mat-list-item role="listitem">
             <mat-form-field class="col l12">
-              <input matInput placeholder="Enter your old password" formControlName="oldPassword" [type]="hideOldPassword ? 'password' : 'text'">
+              <input matInput placeholder="Enter your old password" formControlName="old_password"
+                     [type]="hideOldPassword ? 'password' : 'text'">
               <button mat-icon-button matSuffix (click)="hideOldPassword = !hideOldPassword"
                       [attr.aria-label]="'Hide password'"
                       [attr.aria-pressed]="hideOldPassword">
                 <mat-icon>{{hideOldPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
               </button>
+              <mat-error *ngIf="form.get('old_password').errors?.message">
+                {{form.get('old_password').errors?.message}}
+              </mat-error>
             </mat-form-field>
           </mat-list-item>
           <mat-list-item role="listitem">
             <mat-form-field class="col l12">
-              <input matInput placeholder="Enter new password" formControlName="newPassword" [type]="hideNewPassword ? 'password' : 'text'">
+              <input matInput placeholder="Enter new password" formControlName="new_password"
+                     [type]="hideNewPassword ? 'password' : 'text'">
               <button mat-icon-button matSuffix (click)="hideNewPassword = !hideNewPassword"
                       [attr.aria-label]="'Hide password'"
                       [attr.aria-pressed]="hideNewPassword">
                 <mat-icon>{{hideNewPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
               </button>
+              <mat-error *ngIf="form.get('new_password').errors?.message">
+                {{form.get('new_password').errors?.message}}
+              </mat-error>
             </mat-form-field>
           </mat-list-item>
           <mat-list-item role="listitem">
             <mat-form-field class="col l12">
-              <input matInput placeholder="Confirm new password" formControlName="confirmNewPassword" [type]="hideConfirmNewPassword ? 'password' : 'text'">
+              <input matInput placeholder="Confirm new password" formControlName="new_password_confirmation"
+                     [type]="hideConfirmNewPassword ? 'password' : 'text'">
               <button mat-icon-button matSuffix (click)="hideConfirmNewPassword = !hideConfirmNewPassword"
                       [attr.aria-label]="'Hide password'"
                       [attr.aria-pressed]="hideConfirmNewPassword">
                 <mat-icon>{{hideConfirmNewPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
               </button>
+              <mat-error *ngIf="form.get('new_password_confirmation').errors?.message">
+                {{form.get('new_password_confirmation').errors?.message}}
+              </mat-error>
             </mat-form-field>
           </mat-list-item>
           <mat-list-item role="listitem">
-            <button mat-raised-button class="col l12">Save</button>
+            <button mat-raised-button class="col l12" [disabled]="!form.valid">Save</button>
           </mat-list-item>
         </mat-list>
       </div>

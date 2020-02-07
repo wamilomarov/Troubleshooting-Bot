@@ -1,0 +1,95 @@
+.text-primary {
+  color: #0a80ff !important
+}
+
+.text-info {
+  color: #00bcd4 !important
+}
+
+.text-success {
+  color: #0abb87 !important
+}
+
+.text-danger {
+  color: #fd397a !important
+}
+
+.text-warning {
+  color: #ffb822 !important
+}
+
+.text-light {
+  color: #e6e6e6 !important
+}
+
+.chat-avatar {
+  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
+  margin: 1.5rem;
+  background-size: cover;
+  overflow: hidden;
+}
+
+.chat-user-title {
+  margin-left: 2em;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  /*border-radius: 10px;*/
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #404040;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: black;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.conversation-history {
+  height: calc(100% - 150px);
+  min-height: 300px;
+  overflow-y: scroll;
+  width: 100%;
+}
+.conversation-history.mat-list p {
+  margin: 0;
+}
+
+.conversation-input {
+  bottom: 0;
+  width: 100%;
+  background-color: #fafafa;
+}
+
+.mat-list .mat-list-avatar{
+  width: 25px;
+  height: 25px;
+}
+
+.mat-list-avatar {
+  margin: 0 5px;
+}
+
+.right {
+  text-align: right;
+}
+
+.full-width .mat-icon {
+  cursor: pointer;
+}

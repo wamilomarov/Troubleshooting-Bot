@@ -21,11 +21,19 @@ export class HttpErrorInterceptorService  implements HttpInterceptor  {
         if (error instanceof HttpErrorResponse) {
           if (error.status == 404)
           {
-            this.router.navigateByUrl('/not-found', {replaceUrl: true});
+            this.router.navigate(['/not-found']);
           }
           else if (error.status == 0)
           {
-            this.router.navigateByUrl('/down', {replaceUrl: true});
+            this.router.navigate(['/down']);
+          }
+          // else if (error.status == 401)
+          // {
+          //
+          // }
+          else if (error.status == 422)
+          {
+            throwError(error || "Server Error");
           }
           return empty();
           // return new EmptyObservable;

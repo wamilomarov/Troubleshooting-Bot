@@ -12,8 +12,9 @@ import {
   MatStepperModule,
   MatExpansionModule,
   MatTableModule,
-  MatSnackBarModule
+  MatSnackBarModule, MatTooltipModule, MatProgressBarModule, MatPaginatorModule
 } from '@angular/material';
+import {ScrollingModule} from '@angular/cdk/scrolling';
 
 
 const MaterialModules = [
@@ -32,7 +33,11 @@ const MaterialModules = [
   MatStepperModule,
   MatExpansionModule,
   MatTableModule,
-  MatSnackBarModule
+  MatSnackBarModule,
+  MatTooltipModule,
+  MatProgressBarModule,
+  ScrollingModule,
+  MatPaginatorModule,
 ];
 
 @NgModule({
