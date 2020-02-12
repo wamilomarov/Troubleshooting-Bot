@@ -1,6 +1,6 @@
 <div class="container" [class.is-mobile]="mobileQuery.matches">
   <mat-toolbar color="primary" class="toolbar" *ngIf="isLoggedIn$ | async">
-    <button mat-icon-button (click)="sidenav.toggle()"><mat-icon>menu</mat-icon></button>
+    <button mat-icon-button (click)="toggle()"><mat-icon>menu</mat-icon></button>
     <h1 class="app-name">Troubleshooting bot</h1>
     <span class="spacer"></span>
     <button mat-mini-fab color="accent" (click)="logout()">
@@ -11,7 +11,7 @@
 
   <mat-sidenav-container class="sidenav-container"
                          [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
-    <mat-sidenav #sidenav opened [mode]="mobileQuery.matches ? 'over' : 'side'"
+    <mat-sidenav [(opened)]="opened" [mode]="mobileQuery.matches ? 'over' : 'side'"
                  *ngIf="isLoggedIn$ | async"
                  [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
       <mat-nav-list>

@@ -81,6 +81,7 @@ export class ProfileComponent implements OnInit {
     }
 
     var reader = new FileReader();
+    console.log(files[0]);
     // this.imagePath = files;
     reader.readAsDataURL(files[0]);
     reader.onload = (_event) => {

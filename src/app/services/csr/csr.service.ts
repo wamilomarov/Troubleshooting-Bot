@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpEvent, HttpHeaders} from '@angular/common/http';
 import {Csr} from '../../interfaces/csr';
 import {SingleCsr} from '../../interfaces/single-csr';
 import {CookieService} from 'ngx-cookie-service';
 import {Observable, of, throwError} from 'rxjs';
 import {catchError, retry} from 'rxjs/operators';
-import {ApiResponse} from '../../interfaces/api-response';
+import {NewCsr} from "../../components/create-form/create-form.component";
 
 @Injectable({
   providedIn: 'root'
@@ -24,18 +24,16 @@ export class CsrService {
     };
   }
 
-  search = (query: string, page?: number, pageSize?: number): Observable<any> => {
+  search = (query: string, page?: number, pageSize?: number): Observable<HttpEvent<Csr>> => {
     var url = this.uri + 'search?q=' + query + '&page=' + page + '&page_size=' + pageSize;
     return this.http.get<Csr>(url, this.httpOptions)
-      .pipe((response) => {
-          return response;
-        },
+      .pipe(retry(3),
         catchError(error => {
           return throwError(error);
         }));
   };
 
-  create = (csr: Csr): Observable<any> => {
+  create = (csr: NewCsr): Observable<any> => {
     return this.http.post(this.uri + 'tas', csr, this.httpOptions)
       .pipe((response) => {
         return response;
@@ -44,27 +42,21 @@ export class CsrService {
       }));
   };
 
-  get = (id: string): Promise<SingleCsr> => {
-    return new Promise<SingleCsr>((resolve, reject) => {
-      this.http.get(this.uri + 'tas/' + id)
-        .toPromise()
-        .then((response) => {
-            resolve(response as SingleCsr);
-          },
-          (error) => {
-            reject(error);
-          });
-    });
+  get = (id: string): Observable<HttpEvent<SingleCsr>> => {
+
+      return this.http.get<SingleCsr>(this.uri + 'tas/' + id, this.httpOptions)
+        .pipe(retry(3),
+          catchError((err, caught) => {return caught}));
+
   };
 
-  check = (csrId: string): Observable<ApiResponse> => {
-    var url = this.uri + 'check_tas?csr_id=' + csrId;
-    return this.http.get<ApiResponse>(url, this.httpOptions)
-      .pipe(retry(3),
-        catchError(this.handleError<ApiResponse>("checkCSR", {"data": null, "links": null, "meta": null})));
+  check = (csrId: string): Observable<HttpEvent<Csr>> => {
+    var url = this.uri + 'check?csr_id=' + csrId;
+    return this.http.get<Csr>(url, this.httpOptions)
+      .pipe(retry(3), catchError((err, caught) => {return caught}));
   };
 
-  private handleError<T>(operation = 'operation', result?: T) {
+  private handleError<T>(operation = 'operation', result?) {
     return (error: any): Observable<T> => {
       console.error(error);
 

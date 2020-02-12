@@ -6,12 +6,15 @@ import {Injectable} from "@angular/core";
 import {Router} from "@angular/router";
 import {empty, Observable, throwError} from 'rxjs';
 import {catchError, retry} from 'rxjs/operators';
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 
 @Injectable()
 export class HttpErrorInterceptorService  implements HttpInterceptor  {
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private snackBar: MatSnackBar) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(req)
@@ -27,12 +30,13 @@ export class HttpErrorInterceptorService  implements HttpInterceptor  {
           {
             this.router.navigate(['/down']);
           }
-          // else if (error.status == 401)
+          // else if (error.status == 422)
           // {
           //
           // }
           else if (error.status == 422)
           {
+            this.snackBar.open(error.error);
             throwError(error || "Server Error");
           }
           return empty();
@@ -45,6 +49,7 @@ export class HttpErrorInterceptorService  implements HttpInterceptor  {
     );
   }
 }
+
 
 export const HttpErrorInterceptorProvider = {
   provide: HTTP_INTERCEPTORS,

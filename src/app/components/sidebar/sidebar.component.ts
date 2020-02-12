@@ -2,7 +2,6 @@ import { Component, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import {MediaMatcher} from '@angular/cdk/layout';
 import {Observable} from 'rxjs';
 import {ProfileService} from '../../services/profile/profile.service';
-import {map} from 'rxjs/operators';
 import {Router} from '@angular/router';
 
 @Component({
@@ -12,6 +11,7 @@ import {Router} from '@angular/router';
 })
 export class SidebarComponent implements OnDestroy, OnInit {
   mobileQuery: MediaQueryList;
+  opened: boolean;
   // tslint:disable-next-line:variable-name
   private _mobileQueryListener: () => void;
   isLoggedIn$: Observable<boolean>;
@@ -24,15 +24,17 @@ export class SidebarComponent implements OnDestroy, OnInit {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
+
   }
 
   ngOnInit(){
+    this.mobileQuery ? this.opened = false : true;
     this.isLoggedIn$ = this.profileService.isLoggedIn;
   }
 
   ngOnDestroy() {
     this.mobileQuery.removeListener(this._mobileQueryListener);
-  }
+  };
 
   logout = () => {
     this.profileService.logout()
@@ -40,5 +42,9 @@ export class SidebarComponent implements OnDestroy, OnInit {
       .finally(() => {
         this.router.navigate(['login']);
       });
-  }
+  };
+
+  toggle = () => {
+    this.opened = !this.opened;
+  };
 }

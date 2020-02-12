@@ -3,6 +3,7 @@ import {Csr} from '../../interfaces/csr';
 import {CsrService} from '../../services/csr/csr.service';
 import {MatSnackBar} from '@angular/material';
 import {PageEvent} from '@angular/material/typings/paginator';
+import {HttpEvent} from "@angular/common/http";
 
 @Component({
   selector: 'app-csr-list',
@@ -10,7 +11,7 @@ import {PageEvent} from '@angular/material/typings/paginator';
   styleUrls: ['./csr-list.component.css']
 })
 export class CsrListComponent implements OnInit {
-  searchResults: Csr;
+  searchResults: HttpEvent<Csr>;
   searchQuery: string;
   pageEvent : PageEvent;
 

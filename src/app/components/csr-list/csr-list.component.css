@@ -5,3 +5,8 @@
 mat-card {
   margin: 2em 0;
 }
+
+.full-width {
+  width: 80%;
+  padding: 10px;
+}

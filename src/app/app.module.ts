@@ -47,7 +47,11 @@ import { OffsetTopDirective } from './directives/offsetTop/offset-top.directive'
     BrowserAnimationsModule,
     MaterialModule,
     ReactiveFormsModule],
-  providers: [CookieService, ProfileService, {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true }],
+  providers: [
+    CookieService,
+    ProfileService,
+    {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
+    HttpErrorInterceptorProvider],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

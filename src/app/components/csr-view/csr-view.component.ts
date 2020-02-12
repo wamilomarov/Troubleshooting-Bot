@@ -28,15 +28,15 @@ export class CsrViewComponent implements OnInit {
     );
     this.csrId = this.route.snapshot.paramMap.get('id');
 
-    this.csrService.get(this.csrId)
-      .then((response) => {
-        this.csr = response;
-      }).catch(error => {
-        if (error.status == 404)
-        {
-          this.notFound = true;
-        }
-    })
+    // this.csrService.get(this.csrId)
+    //   .then((response) => {
+    //     this.csr = response;
+    //   }).catch(error => {
+    //     if (error.status == 404)
+    //     {
+    //       this.notFound = true;
+    //     }
+    // })
   }
 
 }

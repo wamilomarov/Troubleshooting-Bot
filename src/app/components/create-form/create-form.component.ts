@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup} from '@angular/forms';
 import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
 import {CsrService} from '../../services/csr/csr.service';
 import {MatSnackBar} from '@angular/material';
@@ -13,46 +13,37 @@ import {MatSnackBar} from '@angular/material';
   }]
 })
 export class CreateFormComponent implements OnInit {
-  firstStep: FormGroup;
-  secondStep: FormGroup;
 
+  newCsr: NewCsr;
   // tslint:disable-next-line:variable-name
   constructor(private _formBuilder: FormBuilder, private csrService: CsrService, private snackBar: MatSnackBar) { }
 
   ngOnInit() {
-
-    this.firstStep = this._formBuilder.group({
-      csr_id: [null, Validators.required],
-      slogan: [null, Validators.required],
-      problem_description: [null, Validators.required],
-      solution_description: [null, Validators.required],
-    });
-    this.secondStep = this._formBuilder.group({
-      customer: [null, Validators.required],
-      contact_person: [null, Validators.required],
-      contact_person_name: [null, Validators.required],
-      contact_person_email: [null, [Validators.required, Validators.email]],
-    });
   }
 
   submit = () => {
-    var object = {...this.firstStep.value, ...this.secondStep.value};
-    this.csrService.create(object)
+    this.csrService.create(this.newCsr)
       .subscribe(() => {
         this.snackBar.open("CSR saved successfully.", "Ok", {
           duration: 2000,
         })
       })
-  }
+  };
 
   checkCsrId = () => {
-    console.log(this.firstStep.get('csr_id').value);
-    this.csrService.check(this.firstStep.get('csr_id').value)
+    this.csrService.check(this.newCsr.csr_id)
       .subscribe(
-        data => {
-          this.firstStep.get('slogan').setValue(data)
-        }
+        data => { console.log(data)},
+        error => {return error;}
       )
   }
 
+}
+
+export class NewCsr
+{
+  csr_id: string;
+  slogan: string;
+  problem_description: string;
+  solution_description: string;
 }
