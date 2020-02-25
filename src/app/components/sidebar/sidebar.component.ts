@@ -15,6 +15,23 @@ export class SidebarComponent implements OnDestroy, OnInit {
   // tslint:disable-next-line:variable-name
   private _mobileQueryListener: () => void;
   isLoggedIn$: Observable<boolean>;
+  private menuItems = [
+    {
+      name: "Home",
+      icon: "home",
+      link: "."
+    },
+    {
+      name: "Profile",
+      icon: "person",
+      link: "profile"
+    },
+    {
+      name: "Chat bot",
+      icon: "message",
+      link: "chat"
+    }
+  ];
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef,

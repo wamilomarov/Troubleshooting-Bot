@@ -3,6 +3,8 @@ import { switchMap } from 'rxjs/operators';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import {CsrService} from '../../services/csr/csr.service';
 import {SingleCsr} from '../../interfaces/single-csr';
+import {HttpEvent} from '@angular/common/http';
+import {IHttpResponse} from '../../interfaces/http-response';
 
 @Component({
   selector: 'app-csr-view',
@@ -12,7 +14,7 @@ import {SingleCsr} from '../../interfaces/single-csr';
 export class CsrViewComponent implements OnInit {
 
   csrId;
-  csr: SingleCsr;
+  csr: IHttpResponse<SingleCsr>;
   notFound = false;
 
   constructor(private route: ActivatedRoute,
@@ -28,6 +30,10 @@ export class CsrViewComponent implements OnInit {
     );
     this.csrId = this.route.snapshot.paramMap.get('id');
 
+    this.csrService.get(this.csrId)
+      .subscribe(
+        data => {this.csr = data}
+      );
     // this.csrService.get(this.csrId)
     //   .then((response) => {
     //     this.csr = response;

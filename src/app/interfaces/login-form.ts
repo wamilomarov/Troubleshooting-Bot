@@ -1,4 +1,4 @@
-export interface LoginForm {
-  "username": "string",
-  "password": "string",
+export class LoginForm {
+  username: string;
+  password: string;
 }

@@ -22,6 +22,7 @@ import { RegisterComponent } from './components/register/register.component';
 import {LoadingInterceptor} from './services/loading/loading-interceptor';
 import { ScrollableDirective } from './directives/scrollable/scrollable.directive';
 import { OffsetTopDirective } from './directives/offsetTop/offset-top.directive';
+import {AuthTokenInterceptorProvider} from './auth-token-interceptor';
 
 
 @NgModule({
@@ -51,7 +52,7 @@ import { OffsetTopDirective } from './directives/offsetTop/offset-top.directive'
     CookieService,
     ProfileService,
     {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
-    HttpErrorInterceptorProvider],
+    HttpErrorInterceptorProvider, AuthTokenInterceptorProvider],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,12 +1,13 @@
 import {
   HTTP_INTERCEPTORS, HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor,
-  HttpRequest, HttpResponse
+  HttpRequest
 } from '@angular/common/http';
 import {Injectable} from "@angular/core";
 import {Router} from "@angular/router";
 import {empty, Observable, throwError} from 'rxjs';
-import {catchError, retry} from 'rxjs/operators';
+import {catchError} from 'rxjs/operators';
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {ProfileService} from '../profile/profile.service';
 
 
 @Injectable()
@@ -14,7 +15,8 @@ export class HttpErrorInterceptorService  implements HttpInterceptor  {
 
   constructor(
     private router: Router,
-    private snackBar: MatSnackBar) { }
+    private snackBar: MatSnackBar,
+    private profileService: ProfileService) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(req)
@@ -30,13 +32,18 @@ export class HttpErrorInterceptorService  implements HttpInterceptor  {
           {
             this.router.navigate(['/down']);
           }
-          // else if (error.status == 422)
-          // {
-          //
-          // }
+          else if (error.status == 401)
+          {
+            this.profileService.clearAuthCookies();
+            this.router.navigate(["login"]);
+          }
           else if (error.status == 422)
           {
-            this.snackBar.open(error.error);
+            var errorMessages = "";
+            for (var message in error.error.errors) {
+              errorMessages +=  error.error.errors[message] + "\n\n";
+            }
+            this.snackBar.open(errorMessages);
             throwError(error || "Server Error");
           }
           return empty();

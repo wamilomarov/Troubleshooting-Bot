@@ -11,7 +11,7 @@ import {HttpEvent} from "@angular/common/http";
   styleUrls: ['./csr-list.component.css']
 })
 export class CsrListComponent implements OnInit {
-  searchResults: HttpEvent<Csr>;
+  searchResults: Csr;
   searchQuery: string;
   pageEvent : PageEvent;
 
