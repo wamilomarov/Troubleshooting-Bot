@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit {
     this.profileService.login(this.form.value)
       .subscribe(
         data => {
-          this.router.navigate(['']);
+          this.router.navigate(['']).then();
         },
         error => {
           for (let key in error.error.errors)

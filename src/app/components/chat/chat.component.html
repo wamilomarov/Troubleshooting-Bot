@@ -14,9 +14,14 @@
     </mat-toolbar-row>
   </mat-toolbar>
     <mat-list dense class="conversation-history mat-typography" appScrollable>
-      <mat-list-item appOffsetTop *ngFor="let event of messages; index as i" [dir]="event.sender._id === myId ? 'rtl' : 'ltr'">
+      <mat-list-item class="message-item" appOffsetTop *ngFor="let event of messages; index as i" [dir]="event.sender._id === myId ? 'rtl' : 'ltr'">
         <img matListAvatar matTooltip="{{event.sender.name}}"  src="{{event.sender.photo}}"/>
+        <div class='chat-message-wrapper'>
+          <div class='chat-message-content'>
         <p [dir]="'ltr'">{{event.message}}</p>
+          </div>
+          <p class="time"> 14h58</p>
+        </div>
       </mat-list-item>
     </mat-list>
 
